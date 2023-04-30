@@ -13,7 +13,7 @@ cloudinary.config({
     api_secret: process.env.CLOUDINARY_API_SECRET,
 });
 
-// GET ALL POSTS
+// GET ALL POSTS FROM DATABASE
 router.route("/").get(async (req, res) => {
     try {
         const posts = await Post.find({});
@@ -23,12 +23,14 @@ router.route("/").get(async (req, res) => {
     }
 });
 
-// CREATE A POST
+// CREATE A POST IN DATABASE
 router.route("/").post(async (req, res) => {
     try {
         const { name, prompt, photo } = req.body;
+        //upload the image to cloudinary
         const photoUrl = await cloudinary.uploader.upload(photo);
     
+        //create a new post in the database with the cloudinary url
         const newPost = await Post.create({
             name,
             prompt,
@@ -39,6 +41,5 @@ router.route("/").post(async (req, res) => {
         res.status(500).json({ sucess: false, message: error }); 
     }
 });
-
 
 export default router;
