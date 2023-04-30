@@ -1,6 +1,5 @@
 import { useState } from 'react'
-import { useNavigate, useSearchParams } from 'react-router-dom'
-
+import { useNavigate } from 'react-router-dom'
 import  preview  from '../assets/preview.png'
 import { getRandomPrompt } from '../utils'
 import { FormField, Loader } from '../components'
@@ -8,11 +7,14 @@ import { FormField, Loader } from '../components'
 
 function CreatePost() {
   const navigate = useNavigate();
-  const [form, setform] = useState({
+  const [form, setForm] = useState({
     name: '',
     title: '',
     content: '',
+    prompt: '',
+    photo: '',
   });
+
   const [generatingImg, setgeneratingImg] = useState(false);
   const [loading, setLoading] = useState(false);
   
@@ -32,7 +34,7 @@ function CreatePost() {
 
         //get response
         const data = await response.json();
-        setform({ ...form, photo: `data:image/jpeg;base64,${data.photo}`}); //save and render image
+        setForm({ ...form, photo: `data:image/jpeg;base64,${data.photo}`}); //save and render image
       } catch (error) {
           alert(error);
       } finally {
@@ -43,7 +45,7 @@ function CreatePost() {
     }
   }
   
-  const handleSubmit = async (e:Event) => {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
     if(form.prompt && form.photo) {
@@ -71,14 +73,13 @@ function CreatePost() {
     }
   };
 
-
-  const handleChange = (e:Event) => {
-    setform({ ... form, [e.target.name]: e.target.value })
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setForm({ ... form, [e.target.name]: e.target.value })
   };
   
   const handleSurpriseMe = () => {
     const randomPrompt = getRandomPrompt(form.prompt);
-    setform({ ... form, prompt: randomPrompt });
+    setForm({ ... form, prompt: randomPrompt });
   };
 
   return (
@@ -123,7 +124,6 @@ function CreatePost() {
                 className='w-9/12 h-9/12 object-contain opacity-40'
               />
             )}
-
             {generatingImg && (
               <div className='absolute inset-0 z-0 flex justify-center items-center bg-[rgba(0,0,0,0.2)] rounded-lg'>
                 <Loader />
@@ -136,15 +136,14 @@ function CreatePost() {
             type='button' 
             onClick={generateImage} 
             className='text-white bg-green-700 font-medium rounded-md text-sm w-full sm:w-auto px-5 py-2.5 text-center'>
-            {generatingImg ? 'Gerando imagem...' : 'Gerar imagem'}
+              {generatingImg ? 'Gerando imagem...' : 'Gerar imagem'}
           </button>
         </div>
         <div className='mt-10'>
           <p className='mt-2 text-[#666e75] text-[14px]'>Você poderá compartilhar sua imagem com a comunidade!</p>
           <button
             type='submit'
-            className='mt-3 text-white bg-[#6469ff] font-medium rounded-md text-sm w-full sm:w-auto px-5 py-2.5 text-center'
-            >
+            className='mt-3 text-white bg-[#6469ff] font-medium rounded-md text-sm w-full sm:w-auto px-5 py-2.5 text-center'>
               {loading ? 'Compartilhando...' : 'Compartilhar'}
             </button>
         </div>

@@ -1,6 +1,6 @@
-import React from 'react'
+import { FormProps } from '../types/FormProps'
 
-function FormField({ labelName, type, name, placeholder, value, handleChange, isSurpriseMe, handleSurpriseMe}:any) {
+function FormField({ labelName, type, name, placeholder, value, handleChange, isSurpriseMe, handleSurpriseMe}: FormProps) {
   return (
     <div>
       <div className='flex items-center gap-2 mb-2'>
