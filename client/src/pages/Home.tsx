@@ -24,7 +24,7 @@ const Home = () => {
       setLoading(true);
       try {
         //api call
-        const response = await fetch('http://localhost:5555/api/v1/post', {
+        const response = await fetch('https://intelligallery-server.onrender.com/api/v1/post', {
           method: 'GET',
           headers: {
             'Content-Type': 'application/json'

@@ -23,7 +23,7 @@ function CreatePost() {
       try {
         setgeneratingImg(true);
         //api call
-        const response = await fetch('http://localhost:5555/api/v1/dalle', {
+        const response = await fetch('https://intelligallery-server.onrender.com/api/v1/dalle', {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json'
@@ -52,7 +52,7 @@ function CreatePost() {
       setLoading(true);
       
       try {
-        const response = await fetch('http://localhost:5555/api/v1/post', {
+        const response = await fetch('https://intelligallery-server.onrender.com/api/v1/post', {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json'
